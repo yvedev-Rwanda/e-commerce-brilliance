@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Product } from '@/types';
 import { sampleProducts } from '@/data/sampleData';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 
 const transformProduct = (p: any): Product => ({
   id: p._id,
