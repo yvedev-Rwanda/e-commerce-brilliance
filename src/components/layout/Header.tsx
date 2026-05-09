@@ -54,11 +54,13 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex h-14 md:h-16 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-display font-bold text-lg md:text-xl">T</span>
+          <Link to="/" className="flex items-center gap-2 shrink-0 group">
+            <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl overflow-hidden shadow-sm flex items-center justify-center transition-transform duration-300 group-hover:scale-105 bg-white/10 ring-1 ring-border">
+              <img src="/logo.png" alt="TechStore Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="font-display font-bold text-lg md:text-xl hidden sm:block">TechStore</span>
+            <span className="font-display font-bold text-lg md:text-xl hidden sm:block bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              TechStore
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-6">
