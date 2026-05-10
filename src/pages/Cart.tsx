@@ -10,8 +10,8 @@ const Cart = () => {
     useCartStore();
 
   const subtotal = getTotal();
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
+  const shipping = subtotal > 100000 ? 0 : 5000;
+  const tax = 0;
   const total = subtotal + shipping + tax;
 
   if (items.length === 0) {
@@ -126,7 +126,7 @@ const Cart = () => {
                       </div>
 
                       <span className="font-semibold">
-                        ${(item.product.price * item.quantity).toFixed(2)}
+                        RWF {(item.product.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -142,7 +142,7 @@ const Cart = () => {
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>RWF {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
@@ -150,23 +150,23 @@ const Cart = () => {
                       {shipping === 0 ? (
                         <span className="text-success">Free</span>
                       ) : (
-                        `$${shipping.toFixed(2)}`
+                        `RWF ${shipping.toLocaleString()}`
                       )}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>RWF {tax.toLocaleString()}</span>
                   </div>
                   <div className="border-t pt-4 flex justify-between">
                     <span className="font-semibold">Total</span>
-                    <span className="font-bold text-xl">${total.toFixed(2)}</span>
+                    <span className="font-bold text-xl">RWF {total.toLocaleString()}</span>
                   </div>
                 </div>
 
                 {shipping > 0 && (
                   <p className="text-sm text-muted-foreground mb-4">
-                    Add ${(100 - subtotal).toFixed(2)} more for free shipping!
+                    Add RWF {(100000 - subtotal).toLocaleString()} more for free shipping!
                   </p>
                 )}
 

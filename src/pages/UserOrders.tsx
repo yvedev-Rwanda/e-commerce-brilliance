@@ -110,7 +110,7 @@ const UserOrders = () => {
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">{t('total')}</p>
-                        <p className="font-bold">${Number(order.total).toFixed(2)}</p>
+                        <p className="font-bold">RWF ${Number(order.total).toLocaleString()}</p>
                       </div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-muted text-muted-foreground'}`}>
@@ -126,7 +126,7 @@ const UserOrders = () => {
                           )}
                           <div className="flex-1">
                             <p className="font-medium text-sm">{item.products?.name || 'Product'}</p>
-                            <p className="text-xs text-muted-foreground">x{item.quantity} · ${Number(item.price).toFixed(2)}</p>
+                            <p className="text-xs text-muted-foreground">x{item.quantity} · RWF ${Number(item.price).toLocaleString()}</p>
                           </div>
                         </div>
                       ))}

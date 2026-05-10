@@ -117,9 +117,9 @@ const LargeProductCard = ({ product }: LargeProductCardProps) => {
 
         {/* Price */}
         <div className="flex items-baseline gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">${product.price}</span>
+          <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">RWF {product.price}</span>
           {product.originalPrice && (
-            <span className="text-base sm:text-xl text-muted-foreground line-through">${product.originalPrice}</span>
+            <span className="text-base sm:text-xl text-muted-foreground line-through">RWF {product.originalPrice}</span>
           )}
         </div>
 

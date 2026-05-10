@@ -37,7 +37,7 @@ const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({
     name: '', description: '', price: '', original_price: '', brand: '',
-    stock: '', features: '', images: '' as string, is_new: false, is_featured: false,
+    stock: '', features: '', images: [] as string[], is_new: false, is_featured: false,
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
 
   const openAddProduct = () => {
     setEditingProduct(null);
-    setProductForm({ name: '', description: '', price: '', original_price: '', brand: '', stock: '', features: '', images: '', is_new: false, is_featured: false });
+    setProductForm({ name: '', description: '', price: '', original_price: '', brand: '', stock: '', features: '', images: [], is_new: false, is_featured: false });
     setProductModal(true);
   };
 
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
       name: p.name, description: p.description || '', price: String(p.price),
       original_price: p.original_price ? String(p.original_price) : '', brand: p.brand || '',
       stock: String(p.stock ?? 0), features: (p.features || []).join('\n'),
-      images: (p.images || []).join('\n'), is_new: p.is_new || false, is_featured: p.is_featured || false,
+      images: p.images || [], is_new: p.is_new || false, is_featured: p.is_featured || false,
     });
     setProductModal(true);
   };
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
       original_price: productForm.original_price ? Number(productForm.original_price) : null,
       brand: productForm.brand, stock: Number(productForm.stock),
       features: productForm.features.split('\n').filter(Boolean),
-      images: productForm.images.split('\n').filter(Boolean),
+      images: productForm.images,
       is_new: productForm.is_new, is_featured: productForm.is_featured,
     };
     if (editingProduct) {
@@ -178,6 +178,29 @@ const AdminDashboard = () => {
       toast.success('Avatar updated');
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProductForm(prev => ({
+          ...prev,
+          images: [...prev.images, reader.result as string]
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setProductForm(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
   };
 
   const sidebarItems = [
@@ -304,7 +327,7 @@ const AdminDashboard = () => {
                   {/* Stats */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                     {[
-                      { label: 'Revenue', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, sub: `${orders.length} orders` },
+                      { label: 'Revenue', value: `RWF ${totalRevenue.toLocaleString()}`, icon: DollarSign, sub: `${orders.length} orders` },
                       { label: 'Orders', value: orders.length, icon: ShoppingBag, sub: `${pendingCount} pending` },
                       { label: 'Products', value: products.length, icon: Package, sub: `${products.filter(p => p.is_new).length} new` },
                       { label: 'Customers', value: customers.length, icon: Users, sub: `${lowStockProducts.length} low stock` },
@@ -331,8 +354,8 @@ const AdminDashboard = () => {
                           <AreaChart data={chartData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                             <XAxis dataKey="date" tick={{ fontSize: 11 }} tickFormatter={(v) => v.split('-')[2]} />
-                            <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${v / 1000}k`} width={50} />
-                            <Tooltip formatter={(value: number) => [`$${value.toLocaleString()}`, 'Revenue']} />
+                            <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `RWF ${v / 1000}k`} width={50} />
+                            <Tooltip formatter={(value: number) => [`RWF ${value.toLocaleString()}`, 'Revenue']} />
                             <Area type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" fill="hsl(var(--primary) / 0.2)" strokeWidth={2} />
                           </AreaChart>
                         </ResponsiveContainer>
@@ -345,7 +368,7 @@ const AdminDashboard = () => {
                       {pieData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={260}>
                           <PieChart>
-                            <Pie data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false}>
+                            <Pie data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={85} dataKey="value" label={({ name, percent }) => `${name} RWF ${(percent * 100).toLocaleString()}%`} labelLine={false}>
                               {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                             </Pie>
                             <Tooltip />
@@ -366,7 +389,7 @@ const AdminDashboard = () => {
                           <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 min-w-0">
                               <span className="font-mono text-xs text-muted-foreground">#{order.id.slice(0, 8)}</span>
-                              <span className="font-semibold text-sm">${Number(order.total).toFixed(2)}</span>
+                              <span className="font-semibold text-sm">RWF ${Number(order.total).toLocaleString()}</span>
                               <span className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString()}</span>
                             </div>
                             <div className="flex gap-2 shrink-0">
@@ -424,7 +447,7 @@ const AdminDashboard = () => {
                                 </div>
                               </td>
                               <td className="py-3 px-4 text-muted-foreground">{product.brand || '-'}</td>
-                              <td className="py-3 px-4 font-medium">${Number(product.price).toFixed(2)}</td>
+                              <td className="py-3 px-4 font-medium">RWF ${Number(product.price).toLocaleString()}</td>
                               <td className="py-3 px-4">
                                 <span className={(product.stock ?? 0) < 20 ? 'text-destructive font-medium' : ''}>{product.stock}</span>
                               </td>
@@ -459,7 +482,7 @@ const AdminDashboard = () => {
                             <p className="font-medium text-sm truncate">{product.name}</p>
                             <p className="text-xs text-muted-foreground">{product.brand || 'No brand'}</p>
                             <div className="flex items-center gap-3 mt-1.5">
-                              <span className="font-semibold text-sm">${Number(product.price).toFixed(2)}</span>
+                              <span className="font-semibold text-sm">RWF ${Number(product.price).toLocaleString()}</span>
                               <span className={`text-xs ${(product.stock ?? 0) < 20 ? 'text-destructive' : 'text-muted-foreground'}`}>Stock: {product.stock}</span>
                             </div>
                           </div>
@@ -504,7 +527,7 @@ const AdminDashboard = () => {
                               <tr key={order.id} className="border-b border-border last:border-0 hover:bg-muted/30">
                                 <td className="py-3 px-4 font-mono text-xs">{order.id.slice(0, 8)}</td>
                                 <td className="py-3 px-4">{customer ? `${customer.first_name || ''} ${customer.last_name || ''}`.trim() || customer.email : 'Unknown'}</td>
-                                <td className="py-3 px-4 font-medium">${Number(order.total).toFixed(2)}</td>
+                                <td className="py-3 px-4 font-medium">RWF ${Number(order.total).toLocaleString()}</td>
                                 <td className="py-3 px-4">
                                   <StatusBadge status={order.status} />
                                 </td>
@@ -533,7 +556,7 @@ const AdminDashboard = () => {
                           </div>
                           <div className="flex items-center justify-between">
                             <span className="text-sm truncate max-w-[60%]">{customer ? `${customer.first_name || ''} ${customer.last_name || ''}`.trim() || customer.email : 'Unknown'}</span>
-                            <span className="font-semibold">${Number(order.total).toFixed(2)}</span>
+                            <span className="font-semibold">RWF ${Number(order.total).toLocaleString()}</span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString()}</span>
@@ -643,7 +666,7 @@ const AdminDashboard = () => {
                   <div className="grid grid-cols-3 gap-3 md:gap-4">
                     <div className="bg-card rounded-xl p-4 md:p-6 border border-border">
                       <p className="text-xs text-muted-foreground mb-1">Avg Order</p>
-                      <p className="text-xl md:text-2xl font-bold">${orders.length ? (totalRevenue / orders.length).toFixed(2) : '0.00'}</p>
+                      <p className="text-xl md:text-2xl font-bold">RWF {orders.length ? (totalRevenue / orders.length).toFixed(2) : '0.00'}</p>
                     </div>
                     <div className="bg-card rounded-xl p-4 md:p-6 border border-border">
                       <p className="text-xs text-muted-foreground mb-1">Success Rate</p>
@@ -662,8 +685,8 @@ const AdminDashboard = () => {
                         <AreaChart data={chartData}>
                           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                           <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-                          <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${v.toLocaleString()}`} width={60} />
-                          <Tooltip formatter={(value: number) => [`$${value.toLocaleString()}`, 'Revenue']} />
+                          <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `RWF ${v.toLocaleString()}`} width={60} />
+                          <Tooltip formatter={(value: number) => [`RWF ${value.toLocaleString()}`, 'Revenue']} />
                           <Area type="monotone" dataKey="revenue" stroke="hsl(var(--accent))" fill="hsl(var(--accent) / 0.2)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
@@ -714,8 +737,28 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label>Image URLs (one per line)</Label>
-              <Textarea value={productForm.images} onChange={(e) => setProductForm({ ...productForm, images: e.target.value })} rows={3} placeholder="https://example.com/image1.jpg" />
+              <Label>Product Images</Label>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap gap-2">
+                  {productForm.images.map((img, index) => (
+                    <div key={index} className="relative w-20 h-20 border rounded-md overflow-hidden bg-muted">
+                      <img src={img} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                      <button 
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                  <label className="flex flex-col items-center justify-center w-20 h-20 border-2 border-dashed rounded-md cursor-pointer hover:border-primary/50 hover:bg-muted/50 transition-colors">
+                    <Camera className="h-6 w-6 text-muted-foreground mb-1" />
+                    <span className="text-[10px] text-muted-foreground font-medium">Add Photo</span>
+                    <input type="file" accept="image/*" multiple className="hidden" onChange={handleImageUpload} />
+                  </label>
+                </div>
+              </div>
             </div>
             <div className="space-y-1.5">
               <Label>Features (one per line)</Label>

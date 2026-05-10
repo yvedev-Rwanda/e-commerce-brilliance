@@ -113,7 +113,7 @@ const AISearchBar = ({ onSearch, className = '', placeholder = 'Search with AI..
                         <p className="font-medium text-sm truncate">{result.product.name}</p>
                         <p className="text-xs text-muted-foreground">{result.matchReason}</p>
                       </div>
-                      <p className="font-semibold text-accent">${result.product.price}</p>
+                      <p className="font-semibold text-accent">RWF {result.product.price}</p>
                     </Link>
                   ))}
                 </div>

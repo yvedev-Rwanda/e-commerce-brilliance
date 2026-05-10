@@ -32,8 +32,8 @@ const Checkout = () => {
   });
 
   const subtotal = getTotal();
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
+  const shipping = subtotal > 100000 ? 0 : 5000;
+  const tax = 0;
   const total = subtotal + shipping + tax;
 
   if (items.length === 0) {
@@ -119,6 +119,11 @@ const Checkout = () => {
 
       clearCart();
       toast.success(t('orderPlaced'));
+      
+      const whatsappMessage = `Muraho! Nkoze order nshya!\n\nUmwirondoro wanjye:\n- Aho mbarizwa: ${address.street}, ${address.city}\n- Telefone: ${address.phone}\n\nIbyo ngize:\n${items.map(item => `- ${item.quantity}x ${item.product.name} (RWF ${item.product.price.toLocaleString()})`).join('\n')}\n\nTotal: RWF ${total.toLocaleString()}`;
+      const whatsappLink = `https://wa.me/250798981668?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(whatsappLink, '_blank');
+
       navigate('/orders');
     } catch (error: any) {
       toast.error(error.message || 'Failed to place order');
@@ -210,7 +215,7 @@ const Checkout = () => {
                         <p className="text-sm font-medium truncate">{item.product.name}</p>
                         <p className="text-xs text-muted-foreground">x{item.quantity}</p>
                       </div>
-                      <span className="text-sm font-medium">${(item.product.price * item.quantity).toFixed(2)}</span>
+                      <span className="text-sm font-medium">RWF {(item.product.price * item.quantity).toLocaleString()}</span>
                     </div>
                   ))}
                 </div>
@@ -218,19 +223,19 @@ const Checkout = () => {
                 <div className="border-t pt-4 space-y-2 mb-6">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('subtotal')}</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>RWF {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('shipping')}</span>
-                    <span>{shipping === 0 ? t('free') : `$${shipping.toFixed(2)}`}</span>
+                    <span>{shipping === 0 ? t('free') : `RWF ${shipping.toLocaleString()}`}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('tax')}</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>RWF {tax.toLocaleString()}</span>
                   </div>
                   <div className="border-t pt-2 flex justify-between font-bold text-lg">
                     <span>{t('total')}</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>RWF {total.toLocaleString()}</span>
                   </div>
                 </div>
 

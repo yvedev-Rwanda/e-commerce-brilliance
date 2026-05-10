@@ -359,8 +359,8 @@ const Products = () => {
                     className="mb-3"
                   />
                   <div className="flex items-center justify-between text-base text-muted-foreground">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
+                    <span>RWF {priceRange[0]}</span>
+                    <span>RWF {priceRange[1]}</span>
                   </div>
                 </div>
 
