@@ -8,6 +8,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/i18n/LanguageContext';
 import type { Tables } from '@/integrations/supabase/types';
+import { formatPrice } from '@/lib/utils';
+
 
 type Order = Tables<'orders'>;
 type OrderItem = Tables<'order_items'>;
@@ -110,7 +112,7 @@ const UserOrders = () => {
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">{t('total')}</p>
-                        <p className="font-bold">RWF ${Number(order.total).toLocaleString()}</p>
+                        <p className="font-bold">{formatPrice(Number(order.total))}</p>
                       </div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-muted text-muted-foreground'}`}>
@@ -126,7 +128,7 @@ const UserOrders = () => {
                           )}
                           <div className="flex-1">
                             <p className="font-medium text-sm">{item.products?.name || 'Product'}</p>
-                            <p className="text-xs text-muted-foreground">x{item.quantity} · RWF ${Number(item.price).toLocaleString()}</p>
+                            <p className="text-xs text-muted-foreground">x{item.quantity} · {formatPrice(Number(item.price))}</p>
                           </div>
                         </div>
                       ))}

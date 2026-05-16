@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cartStore';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { formatPrice } from '@/lib/utils';
+
 
 // WhatsApp Business Number
 const WHATSAPP_NUMBER = '250798981668';
@@ -135,10 +137,10 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
 
           {/* Price */}
           <div className="flex items-center gap-3">
-            <span className="text-xl md:text-2xl font-bold text-foreground">RWF {product.price}</span>
+            <span className="text-xl md:text-2xl font-bold text-foreground">{formatPrice(product.price)}</span>
             {product.originalPrice && (
               <span className="text-base text-muted-foreground line-through">
-                ${product.originalPrice}
+                {formatPrice(product.originalPrice)}
               </span>
             )}
           </div>

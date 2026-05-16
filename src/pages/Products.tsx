@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
+import { formatPrice } from '@/lib/utils';
+
 
 const Products = () => {
   const [searchParams] = useSearchParams();
@@ -359,8 +361,8 @@ const Products = () => {
                     className="mb-3"
                   />
                   <div className="flex items-center justify-between text-base text-muted-foreground">
-                    <span>RWF {priceRange[0]}</span>
-                    <span>RWF {priceRange[1]}</span>
+                    <span>{formatPrice(priceRange[0])}</span>
+                    <span>{formatPrice(priceRange[1])}</span>
                   </div>
                 </div>
 

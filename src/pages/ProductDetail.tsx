@@ -24,6 +24,8 @@ import { useCartStore } from '@/store/cartStore';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { sampleReviews } from '@/data/sampleData';
+import { formatPrice } from '@/lib/utils';
+
 
 // WhatsApp Business Number
 const WHATSAPP_NUMBER = '250798981668';
@@ -192,12 +194,12 @@ const ProductDetail = () => {
                 {/* Price - Large */}
                 <div className="flex items-baseline gap-4 mb-8">
                   <span className="text-5xl md:text-6xl font-bold text-foreground">
-                    RWF {product.price.toLocaleString()}
+                    {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && (
                     <>
                       <span className="text-2xl text-muted-foreground line-through">
-                        RWF {product.originalPrice.toLocaleString()}
+                        {formatPrice(product.originalPrice)}
                       </span>
                       <span className="px-4 py-2 rounded-full bg-destructive text-destructive-foreground text-lg font-bold">
                         -{discount}% OFF

@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useCartStore } from '@/store/cartStore';
+import { formatPrice } from '@/lib/utils';
+
 
 const Cart = () => {
   const { items, updateQuantity, removeItem, getTotal, clearCart } =
@@ -126,7 +128,7 @@ const Cart = () => {
                       </div>
 
                       <span className="font-semibold">
-                        RWF {(item.product.price * item.quantity).toLocaleString()}
+                        {formatPrice(item.product.price * item.quantity)}
                       </span>
                     </div>
                   </div>
@@ -142,7 +144,7 @@ const Cart = () => {
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>RWF {subtotal.toLocaleString()}</span>
+                    <span>{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
@@ -150,23 +152,23 @@ const Cart = () => {
                       {shipping === 0 ? (
                         <span className="text-success">Free</span>
                       ) : (
-                        `RWF ${shipping.toLocaleString()}`
+                        formatPrice(shipping)
                       )}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Tax</span>
-                    <span>RWF {tax.toLocaleString()}</span>
+                    <span>{formatPrice(tax)}</span>
                   </div>
                   <div className="border-t pt-4 flex justify-between">
                     <span className="font-semibold">Total</span>
-                    <span className="font-bold text-xl">RWF {total.toLocaleString()}</span>
+                    <span className="font-bold text-xl">{formatPrice(total)}</span>
                   </div>
                 </div>
 
                 {shipping > 0 && (
                   <p className="text-sm text-muted-foreground mb-4">
-                    Add RWF {(100000 - subtotal).toLocaleString()} more for free shipping!
+                    Add {formatPrice(100000 - subtotal)} more for free shipping!
                   </p>
                 )}
 

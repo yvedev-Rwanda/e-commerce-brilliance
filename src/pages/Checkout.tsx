@@ -13,6 +13,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '@/lib/utils';
+
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -55,11 +57,6 @@ const Checkout = () => {
 
   const { isAdmin } = useAuth();
 
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
-
   if (isAdmin) {
     navigate('/admin');
     return null;
@@ -77,7 +74,7 @@ const Checkout = () => {
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert({
-          user_id: user.id,
+          user_id: user ? user.id : crypto.randomUUID(),
           total,
           status: 'pending',
           payment_method: paymentMethod,
@@ -120,7 +117,7 @@ const Checkout = () => {
       clearCart();
       toast.success(t('orderPlaced'));
       
-      const whatsappMessage = `Muraho! Nkoze order nshya!\n\nUmwirondoro wanjye:\n- Aho mbarizwa: ${address.street}, ${address.city}\n- Telefone: ${address.phone}\n\nIbyo ngize:\n${items.map(item => `- ${item.quantity}x ${item.product.name} (RWF ${item.product.price.toLocaleString()})`).join('\n')}\n\nTotal: RWF ${total.toLocaleString()}`;
+      const whatsappMessage = `Muraho! Nkoze order nshya!\n\nUmwirondoro wanjye:\n- Aho mbarizwa: ${address.street}, ${address.city}\n- Telefone: ${address.phone}\n\nIbyo ngize:\n${items.map(item => `- ${item.quantity}x ${item.product.name} (${formatPrice(item.product.price)})`).join('\n')}\n\nTotal: ${formatPrice(total)}`;
       const whatsappLink = `https://wa.me/250798981668?text=${encodeURIComponent(whatsappMessage)}`;
       window.open(whatsappLink, '_blank');
 
@@ -215,7 +212,7 @@ const Checkout = () => {
                         <p className="text-sm font-medium truncate">{item.product.name}</p>
                         <p className="text-xs text-muted-foreground">x{item.quantity}</p>
                       </div>
-                      <span className="text-sm font-medium">RWF {(item.product.price * item.quantity).toLocaleString()}</span>
+                      <span className="text-sm font-medium">{formatPrice(item.product.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
@@ -223,19 +220,19 @@ const Checkout = () => {
                 <div className="border-t pt-4 space-y-2 mb-6">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('subtotal')}</span>
-                    <span>RWF {subtotal.toLocaleString()}</span>
+                    <span>{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('shipping')}</span>
-                    <span>{shipping === 0 ? t('free') : `RWF ${shipping.toLocaleString()}`}</span>
+                    <span>{shipping === 0 ? t('free') : formatPrice(shipping)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t('tax')}</span>
-                    <span>RWF {tax.toLocaleString()}</span>
+                    <span>{formatPrice(tax)}</span>
                   </div>
                   <div className="border-t pt-2 flex justify-between font-bold text-lg">
                     <span>{t('total')}</span>
-                    <span>RWF {total.toLocaleString()}</span>
+                    <span>{formatPrice(total)}</span>
                   </div>
                 </div>
 

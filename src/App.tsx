@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useNewProductNotifications } from "./hooks/useNewProductNotifications";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { LanguageProvider } from "./i18n/LanguageContext";
+import { useEffect } from "react";
 
 // Lazy-loaded pages for optimized performance (code splitting)
 const Index = lazy(() => import("./pages/Index"));
@@ -37,10 +38,20 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <ThemeProvider>
-    <LanguageProvider>
-      <QueryClientProvider client={queryClient}>
+const AppContent = () => {
+  useEffect(() => {
+    // Record unique visitor
+    if (!localStorage.getItem('has_visited_store')) {
+      localStorage.setItem('has_visited_store', 'true');
+      const visits = parseInt(localStorage.getItem('store_visitor_count') || '0', 10);
+      localStorage.setItem('store_visitor_count', (visits + 1).toString());
+    }
+  }, []);
+
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -52,16 +63,8 @@ const App = () => (
                   <Route path="/products" element={<Products />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
                   <Route path="/search" element={<Search />} />
-                  <Route path="/cart" element={
-                    <ProtectedRoute>
-                      <Cart />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/checkout" element={
-                    <ProtectedRoute>
-                      <Checkout />
-                    </ProtectedRoute>
-                  } />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/welcome" element={
                     <ProtectedRoute>
@@ -92,6 +95,7 @@ const App = () => (
       </QueryClientProvider>
     </LanguageProvider>
   </ThemeProvider>
-);
+  );
+};
 
-export default App;
+export default AppContent;
