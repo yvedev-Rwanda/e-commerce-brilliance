@@ -63,14 +63,17 @@ const Products = () => {
       filtered = filtered.filter((p: Product) =>
         p.name.toLowerCase().includes(query) ||
         p.description.toLowerCase().includes(query) ||
-        p.brand.toLowerCase().includes(query)
+        p.brand.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        (p.subcategory && p.subcategory.toLowerCase().includes(query))
       );
     }
 
     // Category filter
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((p: Product) =>
-        selectedCategories.includes(p.category)
+        selectedCategories.includes(p.category) || 
+        (p.subcategory && selectedCategories.includes(p.subcategory))
       );
     }
 
