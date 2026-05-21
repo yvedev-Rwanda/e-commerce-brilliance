@@ -24,16 +24,16 @@ const Index = () => {
   const [currentBg, setCurrentBg] = useState(0);
   
   const heroBackgrounds = [
-    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=90&w=2560&auto=format&fit=crop", // store/shopping
-    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=90&w=2560&auto=format&fit=crop", // card transaction
-    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=90&w=2560&auto=format&fit=crop", // ecommerce concept
-    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=90&w=2560&auto=format&fit=crop", // checkout
-    "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=90&w=2560&auto=format&fit=crop", // packages/shipping
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=90&w=2560&auto=format&fit=crop", // happy shopper looking at phone
-    "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?q=90&w=2560&auto=format&fit=crop", // phone payment
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=90&w=2560&auto=format&fit=crop", // gadgets
-    "https://images.unsplash.com/photo-1573376670774-4427757f7963?q=90&w=2560&auto=format&fit=crop", // parcel delivery box
-    "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=90&w=2560&auto=format&fit=crop"  // paying sequence
+    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2560&auto=format&fit=crop&fm=webp", // store/shopping
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2560&auto=format&fit=crop&fm=webp", // card transaction
+    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2560&auto=format&fit=crop&fm=webp", // ecommerce concept
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2560&auto=format&fit=crop&fm=webp", // checkout
+    "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=2560&auto=format&fit=crop&fm=webp", // packages/shipping
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2560&auto=format&fit=crop&fm=webp", // happy shopper looking at phone
+    "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?q=80&w=2560&auto=format&fit=crop&fm=webp", // phone payment
+    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2560&auto=format&fit=crop&fm=webp", // gadgets
+    "https://images.unsplash.com/photo-1573376670774-4427757f7963?q=80&w=2560&auto=format&fit=crop&fm=webp", // parcel delivery box
+    "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=2560&auto=format&fit=crop&fm=webp"  // paying sequence
   ];
 
   useEffect(() => {
@@ -88,6 +88,7 @@ const Index = () => {
                   src={bg} 
                   alt="Tech background" 
                   className={`w-full h-full object-cover transition-transform duration-[8000ms] ease-linear ${index === currentBg ? 'scale-105' : 'scale-100'}`}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
             ))}

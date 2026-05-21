@@ -14,6 +14,23 @@ async def get_products():
         product["_id"] = str(product["_id"])
     return products
 
+@router.get("/search", response_model=List[Product])
+async def search_products(q: str):
+    db = get_database()
+    regex = {"$regex": q, "$options": "i"}
+    query = {
+        "$or": [
+            {"name": regex},
+            {"description": regex},
+            {"brand": regex},
+            {"category": regex}
+        ]
+    }
+    products = await db["products"].find(query).to_list(1000)
+    for product in products:
+        product["_id"] = str(product["_id"])
+    return products
+
 @router.get("/{product_id}", response_model=Product)
 async def get_product(product_id: str):
     db = get_database()
