@@ -103,7 +103,7 @@ const Header = () => {
                   )}
                 </Button>
                 {notifMenuOpen && (
-                  <div className="absolute right-0 top-full mt-1 w-80 max-h-96 overflow-y-auto rounded-lg border border-border bg-popover shadow-lg z-50">
+                  <div className="absolute right-0 sm:right-0 top-full mt-1 w-[calc(100vw-2rem)] sm:w-80 max-h-96 overflow-y-auto rounded-lg border border-border bg-popover shadow-lg z-50 -right-4 sm:right-0">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border">
                       <span className="font-semibold text-sm">Notifications</span>
                       {unreadCount > 0 && (
@@ -198,7 +198,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="md:hidden pb-3">
+        <div className="md:hidden pb-2 px-1">
           <AISearchBar placeholder={t('searchProducts')} />
         </div>
 

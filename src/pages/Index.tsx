@@ -24,16 +24,16 @@ const Index = () => {
   const [currentBg, setCurrentBg] = useState(0);
   
   const heroBackgrounds = [
-    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2560&auto=format&fit=crop&fm=webp", // store/shopping
-    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2560&auto=format&fit=crop&fm=webp", // card transaction
-    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2560&auto=format&fit=crop&fm=webp", // ecommerce concept
-    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2560&auto=format&fit=crop&fm=webp", // checkout
-    "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=2560&auto=format&fit=crop&fm=webp", // packages/shipping
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2560&auto=format&fit=crop&fm=webp", // happy shopper looking at phone
-    "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?q=80&w=2560&auto=format&fit=crop&fm=webp", // phone payment
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2560&auto=format&fit=crop&fm=webp", // gadgets
-    "https://images.unsplash.com/photo-1573376670774-4427757f7963?q=80&w=2560&auto=format&fit=crop&fm=webp", // parcel delivery box
-    "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=2560&auto=format&fit=crop&fm=webp"  // paying sequence
+    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1920&auto=format&fit=crop&fm=webp", // store/shopping
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1920&auto=format&fit=crop&fm=webp", // card transaction
+    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=1920&auto=format&fit=crop&fm=webp", // ecommerce concept
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1920&auto=format&fit=crop&fm=webp", // checkout
+    "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=1920&auto=format&fit=crop&fm=webp", // packages/shipping
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1920&auto=format&fit=crop&fm=webp", // happy shopper looking at phone
+    "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?q=80&w=1920&auto=format&fit=crop&fm=webp", // phone payment
+    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1920&auto=format&fit=crop&fm=webp", // gadgets
+    "https://images.unsplash.com/photo-1573376670774-4427757f7963?q=80&w=1920&auto=format&fit=crop&fm=webp", // parcel delivery box
+    "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1920&auto=format&fit=crop&fm=webp"  // paying sequence
   ];
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Index = () => {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden min-h-[85vh] flex items-center">
+        <section className="relative overflow-hidden min-h-[60vh] sm:min-h-[75vh] md:min-h-[85vh] flex items-center">
           {/* Animated Background Slideshow */}
           <div className="absolute inset-0 z-0 bg-black">
             {heroBackgrounds.map((bg, index) => (
@@ -89,6 +89,7 @@ const Index = () => {
                   alt="Tech background" 
                   className={`w-full h-full object-cover transition-transform duration-[8000ms] ease-linear ${index === currentBg ? 'scale-105' : 'scale-100'}`}
                   loading={index === 0 ? "eager" : "lazy"}
+                  {...(index === 0 ? { fetchpriority: "high" } : {})}
                 />
               </div>
             ))}
@@ -97,14 +98,14 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-background max-h-[150px] bottom-0 via-transparent to-transparent" />
           </div>
           
-          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div className="container mx-auto px-4 py-10 sm:py-16 md:py-24 relative z-10 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
             <div className="max-w-2xl flex-1">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 border border-accent/30 text-accent text-sm font-medium mb-8 animate-float shadow-[0_0_15px_rgba(var(--accent),0.3)] backdrop-blur-md">
                 <Sparkles className="h-4 w-4 text-accent animate-pulse" />
                 AI-Powered Shopping
               </span>
               
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1] mb-6 tracking-tight animate-slide-up">
+              <h1 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1] mb-4 sm:mb-6 tracking-tight animate-slide-up">
                 Discover Your
                 <br />
                 <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-accent via-purple-500 to-accent animate-pulse" style={{ animationDuration: '3s' }}>
@@ -112,14 +113,14 @@ const Index = () => {
                 </span>
               </h1>
               
-              <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed animate-fade-in delay-100 font-medium">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mb-6 sm:mb-10 leading-relaxed animate-fade-in delay-100 font-medium">
                 Shop smartphones, laptops, tablets, and more. 
                 <br className="hidden md:block" />
                 Use our intelligent search to find exactly what you need.
               </p>
 
               {/* AI Search Bar */}
-              <div className="mb-10 w-full animate-slide-up delay-200 hover:-translate-y-1 transition-transform duration-300">
+              <div className="mb-6 sm:mb-10 w-full animate-slide-up delay-200 hover:-translate-y-1 transition-transform duration-300">
                 <div className="shadow-[0_8px_30px_rgb(0,0,0,0.2)] dark:shadow-[0_8px_30px_rgba(255,255,255,0.1)] rounded-2xl relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-accent/30 to-purple-500/30 blur-xl opacity-60 -z-10 rounded-2xl" />
                   <AISearchBar 

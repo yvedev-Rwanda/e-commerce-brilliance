@@ -118,6 +118,7 @@ const ProductDetail = () => {
                   src={product.images[selectedImage]}
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  fetchpriority="high"
                 />
                 
                 {/* Image Navigation */}
@@ -192,16 +193,16 @@ const ProductDetail = () => {
                 </div>
 
                 {/* Price - Large */}
-                <div className="flex items-baseline gap-4 mb-8">
-                  <span className="text-5xl md:text-6xl font-bold text-foreground">
+                <div className="flex flex-wrap items-baseline gap-2 sm:gap-4 mb-8">
+                  <span className="text-3xl sm:text-5xl md:text-6xl font-bold text-foreground">
                     {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && (
                     <>
-                      <span className="text-2xl text-muted-foreground line-through">
+                      <span className="text-lg sm:text-2xl text-muted-foreground line-through">
                         {formatPrice(product.originalPrice)}
                       </span>
-                      <span className="px-4 py-2 rounded-full bg-destructive text-destructive-foreground text-lg font-bold">
+                      <span className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-destructive text-destructive-foreground text-sm sm:text-lg font-bold">
                         -{discount}% OFF
                       </span>
                     </>
@@ -292,18 +293,18 @@ const ProductDetail = () => {
                 </a>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-3 gap-4 p-6 rounded-2xl bg-muted">
+                <div className="grid grid-cols-1 xs:grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 rounded-2xl bg-muted">
                   <div className="text-center">
-                    <Truck className="h-8 w-8 mx-auto mb-3 text-accent" />
-                    <p className="text-sm font-medium">Free Shipping</p>
+                    <Truck className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 sm:mb-3 text-accent" />
+                    <p className="text-xs sm:text-sm font-medium">Free Shipping</p>
                   </div>
                   <div className="text-center">
-                    <Shield className="h-8 w-8 mx-auto mb-3 text-accent" />
-                    <p className="text-sm font-medium">2 Year Warranty</p>
+                    <Shield className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 sm:mb-3 text-accent" />
+                    <p className="text-xs sm:text-sm font-medium">2 Year Warranty</p>
                   </div>
                   <div className="text-center">
-                    <RefreshCw className="h-8 w-8 mx-auto mb-3 text-accent" />
-                    <p className="text-sm font-medium">30-Day Returns</p>
+                    <RefreshCw className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 sm:mb-3 text-accent" />
+                    <p className="text-xs sm:text-sm font-medium">30-Day Returns</p>
                   </div>
                 </div>
               </div>
@@ -312,7 +313,7 @@ const ProductDetail = () => {
 
           {/* Tabs - Full Width */}
           <Tabs defaultValue="features" className="mb-16">
-            <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-auto p-0 gap-8">
+            <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-auto p-0 gap-4 sm:gap-8 overflow-x-auto">
               <TabsTrigger
                 value="features"
                 className="rounded-none border-b-4 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent pb-4 text-lg font-semibold"

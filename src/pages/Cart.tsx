@@ -50,8 +50,8 @@ const Cart = () => {
 
       <main className="flex-1 py-8">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="font-display text-3xl font-bold">Shopping Cart</h1>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6 sm:mb-8">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold">Shopping Cart</h1>
             <Button
               variant="ghost"
               className="text-muted-foreground"
@@ -67,13 +67,13 @@ const Cart = () => {
               {items.map((item) => (
                 <div
                   key={item.product.id}
-                  className="flex gap-4 p-4 rounded-2xl bg-card border border-border"
+                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-card border border-border"
                 >
-                  <Link to={`/product/${item.product.id}`}>
+                  <Link to={`/product/${item.product.id}`} className="shrink-0">
                     <img
                       src={item.product.images[0]}
                       alt={item.product.name}
-                      className="w-24 h-24 object-cover rounded-xl"
+                      className="w-full sm:w-24 h-32 sm:h-24 object-cover rounded-xl"
                     />
                   </Link>
 
